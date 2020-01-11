@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "367138374535",
+    "firebase_url": "https://emotions-e5244.firebaseio.com",
+    "project_id": "emotions-e5244",
+    "storage_bucket": "emotions-e5244.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:367138374535:android:3e4540fb81ec526691c922",
+        "android_client_info": {
+          "package_name": "com.example.emotions"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "367138374535-jien546kagnp7esd1jeu3h5ikf039f08.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.emotions",
+            "certificate_hash": "d7f05bb6868175c5404767bed68c8d2e063a18cb"
+          }
+        },
+        {
+          "client_id": "367138374535-2ish9cera1bf1qfp9l4cjvtsojfbevat.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyANV5c6OlyVm5aQfYRRjmUYGZMfFjFwFfs"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "367138374535-2ish9cera1bf1qfp9l4cjvtsojfbevat.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
