@@ -44,7 +44,7 @@
         android:layout_marginTop="32dp"
         android:fontFamily="@font/autour_one"
         android:text="Your Profile"
-        android:textColor="#FDFDFD"
+        android:textColor="#020202"
         android:textSize="20sp"
         android:textStyle="bold"
         app:layout_constraintBottom_toBottomOf="parent"
