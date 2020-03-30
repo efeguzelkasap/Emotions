@@ -14,6 +14,8 @@ import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FieldValue;
 import com.google.firebase.firestore.FirebaseFirestore;
 
+import java.util.ArrayList;
+
 public class DisplayPostActivity extends AppCompatActivity {
 
     TextView emotion;
@@ -23,6 +25,9 @@ public class DisplayPostActivity extends AppCompatActivity {
     FirebaseFirestore fStore;
     String userID;
     DocumentReference documentReference;
+    ArrayList<Integer> earnings = new ArrayList<>();
+    int position = 0;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -44,6 +49,8 @@ public class DisplayPostActivity extends AppCompatActivity {
                 newString = null;
             } else {
                 newString = extras.getString("g");
+                earnings = extras.getIntegerArrayList("e");
+                position = extras.getInt("p");
             }
         } else {
             newString = (String) savedInstanceState.getSerializable("g");
@@ -54,9 +61,9 @@ public class DisplayPostActivity extends AppCompatActivity {
     savePost.setOnClickListener(new View.OnClickListener() {
         @Override
         public void onClick(View view) {
-            documentReference.update("posts", FieldValue.arrayRemove(emotion.getText().toString()));
+            documentReference.update("posts", FieldValue.arrayRemove(emotion.getText().toString() + "$" + earnings.get(position)));
             newString = emotion.getText().toString();
-            documentReference.update("posts", FieldValue.arrayUnion(newString));
+            documentReference.update("posts", FieldValue.arrayUnion(newString + "$" + earnings.get(position)));
             Intent returnIntent = new Intent();
             returnIntent.putExtra("g",newString);
             setResult(RESULT_OK, returnIntent);

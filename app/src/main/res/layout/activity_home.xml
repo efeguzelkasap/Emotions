@@ -7,21 +7,6 @@
     android:background="#FDFDFD"
     tools:context=".HomeActivity">
 
-    <EditText
-        android:id="@+id/editText"
-        android:layout_width="306dp"
-        android:layout_height="53dp"
-        android:layout_marginTop="35dp"
-        android:ems="10"
-        android:fontFamily="@font/autour_one"
-        android:hint="How are you feeling today?"
-        android:inputType="textPersonName"
-        android:textColor="#0A0909"
-        android:textColorHint="#0F0E0E"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
     <!--<ListView
         android:id="@+id/listView"
         android:layout_width="302dp"
@@ -32,6 +17,22 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/deletePost" />-->
 
+
+    <EditText
+        android:id="@+id/editText"
+        android:layout_width="306dp"
+        android:layout_height="53dp"
+        android:layout_marginTop="16dp"
+        android:ems="10"
+        android:fontFamily="@font/autour_one"
+        android:hint="How are you feeling today?"
+        android:inputType="textPersonName"
+        android:textColor="#0A0909"
+        android:textColorHint="#0F0E0E"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.495"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
     <Button
         android:id="@+id/submitButton"
@@ -46,21 +47,119 @@
         android:textColor="#0E0D0D"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.497"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/editText"
-        app:layout_constraintVertical_bias="0.0" />
+        app:layout_constraintVertical_bias="0.02" />
 
-    <com.baoyz.swipemenulistview.SwipeMenuListView
-        android:id="@+id/listView"
-        android:layout_width="347dp"
-
-        android:layout_height="521dp"
-        android:layout_marginStart="34dp"
-        android:layout_marginTop="9dp"
-        android:layout_marginEnd="30dp"
-        android:textColor="@android:color/white"
+    <ScrollView
+        android:id="@+id/SCROLLER_ID"
+        android:layout_width="396dp"
+        android:layout_height="214dp"
+        android:fillViewport="true"
+        android:scrollbars="vertical"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/submitButton" />
+        app:layout_constraintTop_toBottomOf="@+id/submitButton"
+        app:layout_constraintVertical_bias="0.0">
+
+        <com.baoyz.swipemenulistview.SwipeMenuListView
+            android:id="@+id/listView"
+            android:layout_width="349dp"
+            android:layout_height="255dp"
+            android:layout_marginStart="34dp"
+            android:layout_marginTop="9dp"
+            android:layout_marginEnd="30dp"
+            android:scrollbars="vertical"
+            android:textColor="@android:color/white"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/submitButton" />
+    </ScrollView>
+
+    <com.anychart.AnyChartView
+        android:id="@+id/any_chart_view"
+        android:layout_width="395dp"
+        android:layout_height="293dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.491"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/SCROLLER_ID"
+        app:layout_constraintVertical_bias="0.23" />
+
+    <Button
+        android:id="@+id/button2"
+        android:layout_width="58dp"
+        android:layout_height="33dp"
+        android:layout_marginStart="49dp"
+        android:layout_marginBottom="15dp"
+        android:background="@drawable/custom_button"
+        android:backgroundTint="#A7ECF4"
+        android:text="Happiness"
+        android:textSize="10sp"
+        app:layout_constraintBottom_toTopOf="@+id/submitButton"
+        app:layout_constraintEnd_toStartOf="@+id/button3"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/editText" />
+
+    <Button
+        android:id="@+id/button3"
+        android:layout_width="58dp"
+        android:layout_height="33dp"
+        android:layout_marginBottom="15dp"
+        android:background="@drawable/custom_button"
+        android:backgroundTint="#3F51B5"
+        android:text="Sadness"
+        android:textSize="11sp"
+        app:layout_constraintBottom_toTopOf="@+id/submitButton"
+        app:layout_constraintEnd_toStartOf="@+id/button4"
+        app:layout_constraintStart_toEndOf="@+id/button2"
+        app:layout_constraintTop_toBottomOf="@+id/editText" />
+
+    <Button
+        android:id="@+id/button4"
+        android:layout_width="58dp"
+        android:layout_height="33dp"
+        android:layout_marginStart="4dp"
+        android:layout_marginBottom="15dp"
+        android:background="@drawable/custom_button"
+        android:backgroundTint="#FF5722"
+        android:text="surprise"
+        android:textSize="12sp"
+        app:layout_constraintBottom_toTopOf="@+id/submitButton"
+        app:layout_constraintEnd_toStartOf="@+id/button5"
+        app:layout_constraintStart_toEndOf="@+id/button3"
+        app:layout_constraintTop_toBottomOf="@+id/editText" />
+
+    <Button
+        android:id="@+id/button5"
+        android:layout_width="58dp"
+        android:layout_height="33dp"
+        android:layout_marginBottom="15dp"
+        android:background="@drawable/custom_button"
+        android:backgroundTint="#FFC107"
+        android:text="Fear"
+        app:layout_constraintBottom_toTopOf="@+id/submitButton"
+        app:layout_constraintEnd_toStartOf="@+id/button6"
+        app:layout_constraintStart_toEndOf="@+id/button4"
+        app:layout_constraintTop_toBottomOf="@+id/editText" />
+
+    <Button
+        android:id="@+id/button6"
+        android:layout_width="58dp"
+        android:layout_height="33dp"
+        android:layout_marginEnd="51dp"
+        android:layout_marginBottom="15dp"
+        android:background="@drawable/custom_button"
+        android:backgroundTint="#686868"
+        android:text="Anger"
+        app:layout_constraintBottom_toTopOf="@+id/submitButton"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/button5"
+        app:layout_constraintTop_toBottomOf="@+id/editText" />
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>
