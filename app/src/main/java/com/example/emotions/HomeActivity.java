@@ -57,7 +57,7 @@ public class HomeActivity extends AppCompatActivity {
     String userID;
     DocumentReference documentReference;
     AnyChartView anyChartView;
-    String[] months = {"Happiness", "Sadness", "surprise", "Fear", "Anger"};
+    final String[] months = {"Happiness", "Sadness", "surprise", "Fear", "Anger"};
     ArrayList<Integer> earnings;
     HashMap hashMap;
     int values[] = {0,0,0,0,0};
@@ -96,6 +96,7 @@ public class HomeActivity extends AppCompatActivity {
         listView.setAdapter(listAdapter);
         setEmotionValue();
 
+        // When submit button plessed firestore array updated with new value and the list is populated with the new value.
         submitButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -107,7 +108,7 @@ public class HomeActivity extends AppCompatActivity {
                     usersEmotions.add(newEntry);
                     listView.setAdapter(listAdapter);
 
-                    // Add entry with the current emotion at the end seperated by a dollar sign.
+                    // Add new values inputed by user and add the currentEmotion at the end to parse later on for retreival of that number.
                     documentReference.update("posts", FieldValue.arrayUnion(newEntry + "$" + currentEmotion));
                     earnings.clear();
 
@@ -118,7 +119,7 @@ public class HomeActivity extends AppCompatActivity {
         });
 
 
-
+        //Create swipemenu to allow for edit and delete swipe options.
         SwipeMenuCreator creator = new SwipeMenuCreator() {
 
             @Override
@@ -157,7 +158,9 @@ public class HomeActivity extends AppCompatActivity {
 
         listView.setMenuCreator(creator);
 
-
+        // Case 0 if the user decides to edit the post and case 1 if they choose to delete.
+        // Case 0 starts a new activity and send the neccesary data to allow the user to read all the text and edit where needed.
+        // Case 1 updates the firestore array and the list view cell corresponding with that value is also deleted then the list is repopulated with the new array.
         listView.setOnMenuItemClickListener(new SwipeMenuListView.OnMenuItemClickListener() {
             @Override
             public boolean onMenuItemClick(final int position, SwipeMenu menu, int index) {
@@ -192,6 +195,7 @@ public class HomeActivity extends AppCompatActivity {
 
     }
 
+    //Set value of the currentEmotion variable to store in firestore.
     public void setEmotionValue() {
         Happiness.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -243,6 +247,7 @@ public class HomeActivity extends AppCompatActivity {
         }
     }
 
+    // PopulateList gets the data from the array in firestore and populates the values array to populate and update the pie chart.
     protected void populateList() {
         listAdapter.clear();
 
@@ -252,8 +257,10 @@ public class HomeActivity extends AppCompatActivity {
                 if (task.isSuccessful()) {
                     DocumentSnapshot document = task.getResult();
                     if (document.exists()) {
+                        //Gets array from firestore and assign those values to userEmotions list.
                         usersEmotions = (ArrayList<String>) document.get("posts");
 
+                        // Parse int from end of array value to store in values array.
                         for(String n : usersEmotions){
                             String last = n.substring(n.length() - 1);
                             int number = Integer.parseInt(last);
@@ -269,6 +276,7 @@ public class HomeActivity extends AppCompatActivity {
                         values[3] = 0;
                         values[4] = 0;
 
+                        // Sort values into the correct index.
                         for(int i = 0; i < earnings.size(); i++) {
                             if (earnings.get(i) == 1) {
                                 values[0] += 1;
@@ -283,6 +291,7 @@ public class HomeActivity extends AppCompatActivity {
                             }
                         }
 
+                        //Create pie chart, add values and set chart with those values.
                         final Pie pie = AnyChart.pie();
                         List<DataEntry> dataEntriesPie;
 
@@ -304,6 +313,7 @@ public class HomeActivity extends AppCompatActivity {
                         pie.data(dataEntriesPie);
                         anyChartView.setChart(pie);
 
+                        // Updates pie chart values with new values after a delete or add operation.
                         final int delayMillis = 500;
                         final Handler handler = new Handler();
                         final Runnable runnable = new Runnable() {
