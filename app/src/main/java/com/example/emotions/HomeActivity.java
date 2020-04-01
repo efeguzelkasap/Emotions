@@ -7,15 +7,20 @@ import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
+import android.os.Handler;
 import android.util.Log;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
+
+import com.anychart.APIlib;
 import com.anychart.AnyChart;
 import com.anychart.AnyChartView;
 import com.anychart.chart.common.dataentry.DataEntry;
+import com.anychart.chart.common.dataentry.ValueDataEntry;
 import com.anychart.charts.Pie;
+import com.anychart.data.Set;
 import com.anychart.enums.Align;
 import com.anychart.enums.LegendLayout;
 import com.baoyz.swipemenulistview.SwipeMenu;
@@ -55,6 +60,10 @@ public class HomeActivity extends AppCompatActivity {
     String[] months = {"Happiness", "Sadness", "surprise", "Fear", "Anger"};
     ArrayList<Integer> earnings;
     HashMap hashMap;
+    int values[] = {0,0,0,0,0};
+
+
+
 
 
     @Override
@@ -75,6 +84,7 @@ public class HomeActivity extends AppCompatActivity {
         usersEmotions = new ArrayList<>();
         earnings = new ArrayList<>();
         hashMap = new HashMap();
+
 
         fAuth = FirebaseAuth.getInstance();
         fStore = FirebaseFirestore.getInstance();
@@ -100,10 +110,13 @@ public class HomeActivity extends AppCompatActivity {
                     // Add entry with the current emotion at the end seperated by a dollar sign.
                     documentReference.update("posts", FieldValue.arrayUnion(newEntry + "$" + currentEmotion));
                     earnings.clear();
+
                     populateList();
+
                 }
             }
         });
+
 
 
         SwipeMenuCreator creator = new SwipeMenuCreator() {
@@ -162,16 +175,21 @@ public class HomeActivity extends AppCompatActivity {
                     case 1:
                         documentReference.update("posts", FieldValue.arrayRemove(listView.getItemAtPosition(position).toString() + "$" + earnings.get(position)));
                         usersEmotions.remove(listView.getItemAtPosition(position).toString());
-                        earnings.remove(position);
+                        //earnings.remove(position);
+                        earnings.clear();
                         listView.setAdapter(listAdapter);
                         listAdapter.remove(listView.getItemAtPosition(position).toString());
+                        populateList();
                         break;
                 }
                 // false : close the menu; true : not close the menu
                 return false;
             }
         });
-        setupPieChart();
+
+
+        //setupPieChart();
+
     }
 
     public void setEmotionValue() {
@@ -211,26 +229,6 @@ public class HomeActivity extends AppCompatActivity {
         });
     }
 
-    public void setupPieChart() {
-        Pie pie = AnyChart.pie();
-        List<DataEntry> dataEntriesPie = new ArrayList<>();
-
-        pie.legend()
-                .position("center-bottom")
-                .itemsLayout(LegendLayout.HORIZONTAL)
-                .align(Align.CENTER)
-                .fontSize(10);
-
-
-        for (int i = 0; i < months.length; i++) {
-            //dataEntriesPie.add(new ValueDataEntry(months[i], earnings[i]));
-        }
-
-        pie.data(dataEntriesPie);
-
-        anyChartView.setChart(pie);
-    }
-
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
@@ -260,11 +258,72 @@ public class HomeActivity extends AppCompatActivity {
                             String last = n.substring(n.length() - 1);
                             int number = Integer.parseInt(last);
                             earnings.add(number);
-
                             listAdapter.add(n.substring(0, n.indexOf("$")));
-                            Log.d("Tag", String.valueOf(earnings));
+
                         }
                         listView.setAdapter(listAdapter);
+
+                        values[0] = 0;
+                        values[1] = 0;
+                        values[2] = 0;
+                        values[3] = 0;
+                        values[4] = 0;
+
+                        for(int i = 0; i < earnings.size(); i++) {
+                            if (earnings.get(i) == 1) {
+                                values[0] += 1;
+                            } else if (earnings.get(i) == 2) {
+                                values[1] += 1;
+                            } else if (earnings.get(i) == 3) {
+                                values[2] += 1;
+                            } else if (earnings.get(i) == 4) {
+                                values[3] += 1;
+                            } else if (earnings.get(i) == 5) {
+                                values[4] += 1;
+                            }
+                        }
+
+                        final Pie pie = AnyChart.pie();
+                        List<DataEntry> dataEntriesPie;
+
+
+                        dataEntriesPie = new ArrayList<>();
+
+                        pie.legend()
+                                .position("center-bottom")
+                                .itemsLayout(LegendLayout.HORIZONTAL)
+                                .align(Align.CENTER)
+                                .fontSize(10);
+
+                        dataEntriesPie.add(new ValueDataEntry(months[0], values[0]));
+                        dataEntriesPie.add(new ValueDataEntry(months[1], values[1]));
+                        dataEntriesPie.add(new ValueDataEntry(months[2], values[2]));
+                        dataEntriesPie.add(new ValueDataEntry(months[3], values[3]));
+                        dataEntriesPie.add(new ValueDataEntry(months[4], values[4]));
+
+                        pie.data(dataEntriesPie);
+                        anyChartView.setChart(pie);
+
+                        final int delayMillis = 500;
+                        final Handler handler = new Handler();
+                        final Runnable runnable = new Runnable() {
+                            public void run() {
+                                List<DataEntry> data = new ArrayList<>();
+                                data.add(new ValueDataEntry(months[0], values[0]));
+                                data.add(new ValueDataEntry(months[1], values[1]));
+                                data.add(new ValueDataEntry(months[2], values[2]));
+                                data.add(new ValueDataEntry(months[3], values[3]));
+                                data.add(new ValueDataEntry(months[4], values[4]));
+                                pie.data(data);
+
+                                handler.postDelayed(this, delayMillis);
+                            }
+                        };
+                        handler.postDelayed(runnable, delayMillis);
+
+
+
+
                     }
                     }
                 }
