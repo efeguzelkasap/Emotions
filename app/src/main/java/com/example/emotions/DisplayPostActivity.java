@@ -48,6 +48,7 @@ public class DisplayPostActivity extends AppCompatActivity {
             if (extras == null) {
                 newString = null;
             } else {
+                //Get values from other activity.
                 newString = extras.getString("g");
                 earnings = extras.getIntegerArrayList("e");
                 position = extras.getInt("p");
@@ -58,6 +59,7 @@ public class DisplayPostActivity extends AppCompatActivity {
 
         emotion.setText(newString);
 
+        //Delete current post from firestore and update it with the new one
     savePost.setOnClickListener(new View.OnClickListener() {
         @Override
         public void onClick(View view) {
